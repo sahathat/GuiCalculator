@@ -19,7 +19,7 @@ public class CalculatorFX extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        //load resoure form fxml.file
+        //load resource form fxml.file
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         //create root scene
