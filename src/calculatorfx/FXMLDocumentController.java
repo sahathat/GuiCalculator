@@ -28,6 +28,11 @@ public class FXMLDocumentController implements Initializable {
     Float data = 0f;
     int operation = -1;
     
+    
+    int len = 0;
+    
+    String store = "";
+    
     // set button is number and operation
     @FXML
     private Button two;
@@ -73,20 +78,26 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Button div;
+    
+    @FXML
+    private Button backspace;
 
     @FXML
-    private Button one;
-    
-    //set button history scene to another scene and keep data of calculator
+    private Button mod;
+
     @FXML
-    private Button history;
+    private Button plusminus;
+    
+    
+    @FXML
+    private Button one;
     
     //set textfield to display number
     @FXML
     private TextField display;
     
     //display operation doing
-     @FXML
+    @FXML
     private TextField operationtool;
     
     
@@ -100,6 +111,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "1");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == two){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -107,6 +119,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "2");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == three){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -114,6 +127,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "3");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == four){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -121,6 +135,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "4");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == five){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -128,6 +143,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "5");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == six){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -135,6 +151,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "6");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == seven){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -142,6 +159,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "7");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == eight){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -149,6 +167,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "8");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == nine){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -156,6 +175,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 display.setText(display.getText() + "9");
             }
+            data = Float.parseFloat(display.getText()); // convert String to float value
         }
         else if(event.getSource() == zero){
             if("0".equals(display.getText()) || "Error".equals(display.getText())){
@@ -166,32 +186,34 @@ public class FXMLDocumentController implements Initializable {
         }
         else if(event.getSource() == clear){
             display.setText("0");
+            data = Float.parseFloat(display.getText()); //clear value is 0
         }
         
         //do operation
         else if(event.getSource() == plus){
-            data = Float.parseFloat(display.getText()); // convert String to float value
             operation = 1; // type addition
-            display.setText("");
+            display.setText("0");
             operationtool.setText("+");
         }
         else if(event.getSource() == minus){
-            data = Float.parseFloat(display.getText()); // convert String to float value
             operation = 2; // type substraction
-            display.setText("");
+            display.setText("0");
             operationtool.setText("-");
         }
         else if(event.getSource() == muti){
-            data = Float.parseFloat(display.getText()); // convert String to float value
             operation = 3; // type mutiplition
-            display.setText("");
+            display.setText("0");
             operationtool.setText("*");
         }
         else if(event.getSource() == div){
-            data = Float.parseFloat(display.getText()); // convert String to float value
             operation = 4; // type division
-            display.setText("");
+            display.setText("0");
             operationtool.setText("/");
+        }
+        else if(event.getSource() == mod){
+            operation = 5; // type modulation
+            display.setText("0");
+            operationtool.setText("%");
             
         //step equal to get number
         } else if(event.getSource() == equals){
@@ -230,6 +252,36 @@ public class FXMLDocumentController implements Initializable {
                         operationtool.setText("=");
                     }
                     break;
+                case 5: //modulation
+                    ans = data % secondOperand;
+                    display.setText(String.valueOf(ans)); //convert float to String and display on text field
+                    operationtool.setText("=");
+            }
+        }
+        //set backspace button delete back position of textfield
+        else if(event.getSource() == backspace){
+            len = display.getText().length() -1; // length of textfield - 1
+            if(len == 0){
+                display.setText("0"); //use one digit number
+            }
+            else{
+               StringBuilder back = new StringBuilder(display.getText());
+            back.deleteCharAt(len); //delete last index of char and toString with string builder
+            store = back.toString(); //store item in textfield and output item after delete index of item
+            display.setText(store);  
+            }
+        }
+        //set point of plus / minus switch
+        else if(event.getSource() == plusminus){
+            if(data > 0){
+                display.setText("-" + display.getText());
+                data = -data;
+            }else if(data < 0){
+                StringBuilder back = new StringBuilder(display.getText());
+                back.deleteCharAt(0); //delete first index of char and toString with string builder
+                store = back.toString(); //store item in textfield and output item after delete index of item
+                display.setText(store);  
+                data = -data;
             }
         }
     }
